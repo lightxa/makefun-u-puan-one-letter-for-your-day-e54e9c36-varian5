@@ -38,7 +38,9 @@ def validate(word: str) -> None:
 
 def main() -> None:
     validate(WORD)
-    output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    # An explicitly empty MAKEFUN_OUTPUT_DIR means "unset": fall back to
+    # /output instead of failing inside os.makedirs("").
+    output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output"
     os.makedirs(output_dir, exist_ok=True)
     # Binary mode: exactly one byte, no newline translation, no extra output.
     path = os.path.join(output_dir, "entry.txt")
